@@ -1,0 +1,24 @@
+# Keep this repository intentionally narrow.
+# Track only the Dockerized receiver PoC files unless explicitly unignored.
+
+*
+
+!.gitignore
+
+!poc/
+poc/*
+
+!poc/llm_protocol/
+poc/llm_protocol/*
+
+!poc/llm_protocol/docker-compose.yml
+!poc/llm_protocol/run_receiver_poc.py
+
+!poc/llm_protocol/prompts/
+poc/llm_protocol/prompts/*
+!poc/llm_protocol/prompts/codebook_receiver_system.txt
+!poc/llm_protocol/prompts/scattered_subword_receiver_user_template.txt
+
+!poc/out/
+poc/out/*
+!poc/out/demo_codebook_excerpt.md

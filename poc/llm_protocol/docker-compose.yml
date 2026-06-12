@@ -1,0 +1,35 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-covertchannel-ollama
+    gpus: all
+    ports:
+      - "127.0.0.1:11434:11434"
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+
+  receiver-poc:
+    image: python:3.12-slim
+    depends_on:
+      - ollama
+    working_dir: /work
+    volumes:
+      - ../../:/work
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: hf.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF:Q4_K_M
+      RECEIVER_SYSTEM_PROMPT: poc/llm_protocol/prompts/codebook_receiver_system.txt
+      RECEIVER_USER_TEMPLATE: poc/llm_protocol/prompts/scattered_subword_receiver_user_template.txt
+      RECEIVER_CARRIER: poc/out/demo_codebook_excerpt.md
+      RECEIVER_EXPECTED_TEXT: THIS IS A DEMO OF USING A COVERT CHANNEL
+      RECEIVER_OUTPUT: poc/out/ollama_receiver_result.json
+    command: python poc/llm_protocol/run_receiver_poc.py
+    profiles:
+      - run
+
+volumes:
+  ollama-data:

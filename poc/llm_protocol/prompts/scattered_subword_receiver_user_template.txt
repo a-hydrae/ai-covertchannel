@@ -1,0 +1,10 @@
+Decode the following document using the receiver scheme from your system
+instructions.
+
+For the default PoC, the document contains exactly four candidate sentences.
+Process the candidate sentences from top to bottom.
+
+Document:
+---
+{document_text}
+---
